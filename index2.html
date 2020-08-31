@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <button class='selection' id='rock'>Rock</button>
+        <button class='selection' id='paper'>Paper</button>
+        <button class='selection' id='scissors'>Scissors</button>
+        <div id='results'></div>
+
+        <script>
+
+            //confusing as hell code
+            //can merge game() and selectChoice() into a single function
+            //improve design
+
+
+            /*
+            function game() {
+                let playerScore=0;
+                let computerScore=0;
+                const results=document.querySelector('#results'); 
+                
+                
+                for (let i=0; i<2; i++) {
+                    let playerSelection=prompt('Rock, Paper or Scissors?');
+                    const computerSelection=computerPlay();
+                    const result=playRound(playerSelection,computerSelection);
+
+                    const roundWinner=document.createElement('div');
+                    roundWinner.classList.add('roundWinner');
+                    roundWinner.textContent=result;
+                    console.log(result);
+                    results.appendChild(roundWinner);
+
+                    if (result.includes('Win')) {
+                        playerScore++;
+                    } else if (result.includes('Lose')) {
+                        computerScore++;
+                    }
+
+                    const scores=document.createElement('div');
+                    scores.classList.add('scores');
+                    scores.textContent='Player score: '+playerScore+'Computer score: '+computerScore;
+                    results.appendChild(scores);
+                    console.log(scores);
+                }
+
+                const finalWinner=document.createElement('div');
+                finalWinner.classList.add('finalWinner');
+                if (playerScore>computerScore) {
+                    //console.log('Player wins!');
+                    finalWinner.textContent='Player wins!';
+                } else if (computerScore>playerScore) {
+                    //console.log('Computer wins!');
+                    finalWinner.textContent='Computer wins!';
+                } else {
+                    //console.log('It\'s a tie!');
+                    finalWinner.textContent='It\'s a tie!';
+                }
+                results.appendChild(finalWinner);
+            }
+            */
+
+
+            function playRound(playerSelection, computerSelection) {
+                playerSelection=playerSelection.toUpperCase();
+                if (playerSelection=='ROCK' && computerSelection=='Paper') {
+                    return 'You Lose! Paper beats Rock';
+                }
+                else if (playerSelection=='ROCK' && computerSelection=='Scissors') {
+                    return 'You Win! Rock beats Scissors';
+                }
+                else if (playerSelection=='SCISSORS' && computerSelection=='Rock') {
+                    return 'You Lose! Rock beats Scissors';
+                }
+                else if (playerSelection=='SCISSORS' && computerSelection=='Paper') {
+                    return 'You Win! Scissors beats Paper';
+                }
+                else if (playerSelection=='PAPER' && computerSelection=='Rock') {
+                    return 'You Win! Paper beats Rock';
+                }
+                else if (playerSelection=='PAPER' && computerSelection=='Scissors') {
+                    return 'You Lose! Scissors beats Paper';
+                }
+                else if (playerSelection==computerSelection.toUpperCase()) {
+                    return 'It\'s a draw!';
+                }
+            }
+
+            function computerPlay() {
+                let x=Math.floor((Math.random() * 3) + 1);
+                switch (x) {
+                    case 1: 
+                        return 'Rock';
+                        break;
+                    case 2: 
+                        return 'Paper';
+                        break;
+                    case 3: 
+                        return 'Scissors';
+                }
+            }
+
+
+            /*
+            function stopGame(e) {
+                const count=this.getAttribute('onlick');
+                console.log(this.getAttribute('onclick'));
+            }
+
+            function updateScore(e) {
+                let playerScore=0;
+                let computerScore=0;
+            }
+            */
+
+
+            let count=0;
+            let playerScore=0;
+            let computerScore=0;
+            const results=document.querySelector('#results'); 
+
+            function game() {
+                count++;
+                //console.log(count);
+
+                const currentR=document.getElementById('results').innerHTML;
+                if (currentR.includes('Win')) {
+                    playerScore++;
+                } else if (currentR.includes('Lose')) {
+                    computerScore++;
+                }
+                document.getElementById('results').innerHTML+='<br> Player : Computer <br>'+playerScore+' : '+computerScore
+
+                if (count>=5) {
+                    //console.log('end');
+ 
+                    const finalWinner=document.createElement('div');
+                    finalWinner.classList.add('finalWinner');
+                    finalWinner.textContent='Final result: '
+                    if (playerScore>computerScore) {
+                        //console.log('Player wins!');
+                        finalWinner.textContent+='Player wins!';
+                    } else if (computerScore>playerScore) {
+                        //console.log('Computer wins!');
+                        finalWinner.textContent+='Computer wins!';
+                    } else {
+                        //console.log('It\'s a tie!');
+                        finalWinner.textContent+='It\'s a tie!';
+                    }
+                    results.appendChild(finalWinner);
+                    selections.forEach(selection => selection.remove());
+                }
+            }
+
+
+            function selectChoice(e) { //'e' refers to the event of clicking the button
+                const choice=this.innerHTML;
+                const r=playRound(choice,computerPlay()); //'this' refers to the selection, which is each button
+                
+                document.getElementById('results').innerHTML=r;
+            }
+
+
+            const selections=document.querySelectorAll('.selection'); //selections is a nodelist for all buttons
+            
+            selections.forEach(selection => selection.addEventListener('click',selectChoice));
+            selections.forEach(selection => selection.setAttribute('onclick','game()'));
+
+        </script>
+    </body>
+</html>
